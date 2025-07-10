@@ -26,6 +26,10 @@ const Navbar = () => {
         const res = await axios.get("/api/auth/me", { withCredentials: true });
         setUser(res.data.user);
       } catch (err) {
+        // Only log unexpected errors (not 401)
+        if (err.response?.status !== 401) {
+          console.error("Error fetching user:", err);
+        }
         setUser(null);
       }
     };
