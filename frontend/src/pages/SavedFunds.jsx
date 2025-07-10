@@ -51,7 +51,7 @@ const SavedFunds = () => {
 
   const handleRemove = async (fundId) => {
     try {
-      await axios.delete("/api/funds/remove", {
+      await axios.delete(`/api/funds/remove`, {
         data: { fundId },
         withCredentials: true,
       });
