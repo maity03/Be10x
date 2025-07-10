@@ -19,7 +19,7 @@ export const signupController = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await signup.create({ name, email, password: hashedPassword });
-    // Generate JWT
+
     const token = jwt.sign(
       { _id: user._id, email: user.email, name: user.name },
       jwtSecret,
@@ -31,7 +31,7 @@ export const signupController = async (req, res) => {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     res.status(201).json({
       message: "User registered successfully",
@@ -58,7 +58,7 @@ export const loginController = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-    // Generate JWT
+
     const token = jwt.sign(
       { _id: user._id, email: user.email, name: user.name },
       jwtSecret,
@@ -70,7 +70,7 @@ export const loginController = async (req, res) => {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     res.status(200).json({
       message: "Login successful",
@@ -87,7 +87,7 @@ export const meController = async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ message: "Not authenticated" });
     }
-    // Optionally fetch from DB for fresh info, but here just return what's in JWT
+
     res
       .status(200)
       .json({ user: { name: req.user.name, email: req.user.email } });

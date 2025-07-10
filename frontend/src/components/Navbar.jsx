@@ -38,14 +38,13 @@ const Navbar = () => {
 
   return (
     <nav className="w-full bg-white shadow flex flex-col md:flex-row items-center justify-between px-4 md:px-6 py-3 mb-6 gap-2 md:gap-0">
-      {/* Left: Logo */}
       <div
         className="text-2xl font-bold text-green-700 cursor-pointer mb-2 md:mb-0"
         onClick={() => navigate("/")}
       >
         Mutual
       </div>
-      {/* Right: User info and actions */}
+
       <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 w-full md:w-auto">
         {user ? (
           <>
