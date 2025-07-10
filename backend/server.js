@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
@@ -26,6 +26,4 @@ app.get("/", (req, res) => {
   res.send("Hello i am working");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+export default app;
