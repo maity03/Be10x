@@ -5,13 +5,20 @@ import connectDB from "./configs/mongoDb.js";
 import authRoutes from "./routes/authRoutes.js";
 import fundRoutes from "./routes/fundRoutes.js";
 import cookieParser from "cookie-parser";
+import path from "path";
+import { fileURLToPath } from "url";
+
 dotenv.config();
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -22,8 +29,11 @@ const PORT = process.env.PORT || 5000;
 app.use("/api/auth", authRoutes);
 app.use("/api/funds", fundRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello i am working");
+// Serve static files (for frontend)
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Wildcard route for SPA (must come last, only for non-API requests)
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
 });
 
 app.listen(PORT, () => {
